@@ -1,49 +1,32 @@
 
-This website is built with the **Astro** framework using the [Mizuki](https://github.com/LyraVoid/Mizuki) theme.
+本站是一个聚焦 **算力、芯片与大模型** 产业链的信息整理站点。
 
-::github{repo="LyraVoid/Mizuki"}
+## 关注什么
 
-## 🌟 Theme Features
+- **算力基础设施**：智算中心、全国一体化算力网、算电协同
+- **芯片与硬件**：AI 加速卡、NPU、HBM 高带宽存储、先进封装与 Chiplet
+- **产业格局**：国产算力的出货与份额变化、云厂商资本开支、算力与模型的价格走势
+- **落地应用**：端侧 AI、大模型推理成本、行业场景的实际使用情况
 
-### 🎨 Design & User Experience
-- **Modern & Elegant Design** - Clean, minimalist interface with beautiful typography
-- **Fully Responsive** - Optimized for all devices from mobile to desktop
-- **Dark/Light Mode** - Automatic theme switching with smooth transitions
-- **Beautiful Typography** - Enhanced readability with JetBrains Mono font
-- **Smooth Animations** - Fluid page transitions and interactive elements
+## 内容是怎么来的
 
-### 🔍 Content & Search
-- **Advanced Search** - Powered by [Pagefind](https://pagefind.app/) for fast, accurate results
-- **Enhanced Markdown** - Extended syntax with code highlighting and math support
-- **Interactive Table of Contents** - Auto-scroll navigation for long articles
-- **RSS Feed Generation** - Stay updated with automatic feed generation
-- **Reading Time Estimation** - Know how long articles take to read
-- **Post Categorization** - Organize content with tags and categories
+本站不做原创报道，也不做一手调研。所有内容都是**基于公开信息整理**，来源包括政府与行业主管部门的公开数据、上市公司财报、第三方咨询机构报告，以及公开的产业媒体报道。
 
+每篇文章末尾都会列出参考来源，方便核对。涉及数据的部分尽量标注口径与出处；不同来源口径不一致时，会把差异一并写出来，而不是取一个好看的数字。
 
+行业变化很快，文章里的判断只代表写作当时的情况。**数据请以官方和原始机构发布为准。**
 
-### 📱 Special Pages
-- **Anime Tracking Page** - Track your anime watching progress with ratings
-- **Friends Links Page** - Showcase friend websites with beautiful cards
-- **Diary/Moments Page** - Share life moments like social media posts
-- **Archive Page** - Organized timeline view of all posts
-- **About Page** - Customizable personal introduction (this page!)
+## 关于时效
 
-### 🛠 Technical Features
-- **Enhanced Code Blocks** - Powered by [Expressive Code](https://expressive-code.com/)
-- **Math Support** - LaTeX rendering with KaTeX for mathematical expressions
-- **Image Optimization** - PhotoSwipe gallery with lazy loading
-- **SEO Optimized** - Built-in sitemap and meta tags for better search visibility
-- **Performance Optimized** - Fast loading with caching and optimization
-- **Comment System Ready** - Integration support for Twikoo comments
+如果你引用本站内容，建议先点开文末的原始来源核对一遍。这个行业三个月就能换一轮数字。
 
-### 🎯 Advanced Markdown Features
-- **Callouts & Admonitions** - Beautiful info boxes with `> [!NOTE]`, `> [!TIP]`, `> [!WARNING]`
-- **Mathematical Equations** - Write LaTeX math with `$inline$` and `$$block$$` syntax
-- **GitHub Cards** - Embed repository cards with `::github{repo="user/repo"}`
-- **Syntax Highlighting** - Advanced code highlighting with line numbers
-- **Copy Code Buttons** - Easy code copying functionality
+## 联系
+
+- 邮箱：hi@npuai.cn
+- 站点代码托管在 GitHub，欢迎提 Issue 指正。
 
 ---
 
-*Built with ❤️ using Astro and inspired by modern web design principles.*
+本站使用 [Astro](https://astro.build/) 构建，主题为 [Mizuki](https://github.com/LyraVoid/Mizuki)。
+
+::github{repo="FBX-Dev/npuai-blog"}
