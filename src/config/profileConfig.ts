@@ -20,5 +20,5 @@ export const profileConfig: ProfileConfig = {
 			icon: "fa7-solid:envelope",
 			url: "mailto:hi@npuai.cn",
 		},
-	];
+	],
 };

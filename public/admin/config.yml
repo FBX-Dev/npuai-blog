@@ -6,13 +6,18 @@ backend:
   name: github
   repo: FBX-Dev/npuai-blog
   branch: main
-  auth_methods: [oauth, token]
+  auth_methods: [token]
   commit_messages:
     create: '内容：新增 {{collection}} “{{slug}}”'
     update: '内容：更新 {{collection}} “{{slug}}”'
     delete: '内容：删除 {{collection}} “{{slug}}”'
     uploadMedia: '内容：上传图片 “{{path}}”'
     deleteMedia: '内容：删除图片 “{{path}}”'
+
+# 允许中文标题直接生成文件名（否则中文字符会被清空导致文件名为空）
+slug:
+  encoding: unicode
+  clean_accents: false
 
 locale: zh_Hans
 site_url: https://www.npuai.cn
