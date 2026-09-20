@@ -1,0 +1,88 @@
+# Sveltia CMS 配置 —— NPU AI 博客后台
+# 后台地址：https://www.npuai.cn/admin/
+# 登录方式：GitHub 账号授权，或粘贴 GitHub Personal Access Token（需 repo 权限）
+
+backend:
+  name: github
+  repo: FBX-Dev/npuai-blog
+  branch: main
+  auth_methods: [oauth, token]
+  commit_messages:
+    create: '内容：新增 {{collection}} “{{slug}}”'
+    update: '内容：更新 {{collection}} “{{slug}}”'
+    delete: '内容：删除 {{collection}} “{{slug}}”'
+    uploadMedia: '内容：上传图片 “{{path}}”'
+    deleteMedia: '内容：删除图片 “{{path}}”'
+
+locale: zh_Hans
+site_url: https://www.npuai.cn
+display_url: https://www.npuai.cn
+logo_url: https://www.npuai.cn/assets/home/default-logo.webp
+
+# 图片上传到 public/images/uploads，文章里写 /images/uploads/xxx.webp 即可
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: posts
+    label: 文章
+    label_singular: 文章
+    description: 保存后会提交到 GitHub，并自动重新构建发布（约 2 分钟生效）
+    folder: src/content/posts
+    create: true
+    delete: true
+    slug: '{{slug}}'
+    extension: md
+    format: frontmatter
+    fields:
+      - label: 标题
+        name: title
+        widget: string
+      - label: 发布日期
+        name: published
+        widget: datetime
+        date_format: 'YYYY-MM-DD'
+        time_format: false
+        format: 'YYYY-MM-DD'
+      - label: 摘要
+        name: description
+        widget: text
+        required: false
+        hint: 用于列表页预览与 SEO 描述
+      - label: 封面图
+        name: image
+        widget: image
+        required: false
+        choose_url: false
+      - label: 标签
+        name: tags
+        widget: list
+        required: false
+        default: []
+      - label: 分类
+        name: category
+        widget: string
+        required: false
+      - label: 草稿
+        name: draft
+        widget: boolean
+        default: false
+        hint: 打开后不会发布到线上
+      - label: 置顶
+        name: pinned
+        widget: boolean
+        default: false
+      - label: 正文
+        name: body
+        widget: markdown
+
+  - name: pages
+    label: 独立页面
+    files:
+      - label: 关于本站
+        name: about
+        file: src/content/spec/about.md
+        fields:
+          - label: 正文
+            name: body
+            widget: markdown
