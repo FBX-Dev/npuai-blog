@@ -2,6 +2,9 @@ allowBuilds:
   esbuild: true
   sharp: true
   ttf2woff2: true
+  # wrangler 部署需要（wrangler 依赖 workerd）。不加这一条，
+  # pnpm 11 会拦截 workerd 的构建脚本并报 ERR_PNPM_IGNORED_BUILDS。
+  workerd: true
 minimumReleaseAgeExclude:
   - oddmisc
   - '@astrojs/*'
