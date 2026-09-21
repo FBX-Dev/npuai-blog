@@ -88,4 +88,49 @@ if (footerConfig.enable) {
 			>
 		</div>
 	</div>
+
+	<!-- 百度统计：站点流量统计 -->
+	<script is:inline data-swup-ignore-script>
+		(function () {
+			// 百度统计站点 ID
+			var BAIDU_HM_ID = "84bd24fadddaf817ea0c0082174e8808";
+
+			window._hmt = window._hmt || [];
+
+			// 1. 加载 hm.js。页脚在桌面端与移动端各渲染一次，
+			//    用全局标记保证 hm.js 全站只加载一次。
+			if (!window.__baiduHmLoaded) {
+				window.__baiduHmLoaded = true;
+				var hm = document.createElement("script");
+				hm.async = true;
+				hm.src = "https://hm.baidu.com/hm.js?" + BAIDU_HM_ID;
+				var firstScript = document.getElementsByTagName("script")[0];
+				if (firstScript && firstScript.parentNode) {
+					firstScript.parentNode.insertBefore(hm, firstScript);
+				} else {
+					document.head.appendChild(hm);
+				}
+			}
+
+			// 2. 本站用 Swup 做无刷新跳转，切页不会重新加载 hm.js，
+			//    必须手动补报一次 PV，否则一次访问只会统计到进入的第一个页面。
+			//    page:view 只在跳转时触发，首次加载由 hm.js 自行统计，不会重复计数。
+			if (window.__baiduPvHooked) {
+				return;
+			}
+			window.__baiduPvHooked = true;
+
+			document.addEventListener("swup:page:view", function (event) {
+				try {
+					var args = event && event.detail && event.detail.args;
+					var path =
+						(args && args.url) ||
+						window.location.pathname + window.location.search;
+					window._hmt.push(["_trackPageview", path]);
+				} catch (error) {
+					// 统计失败不影响页面正常使用
+				}
+			});
+		})();
+	</script>
 </div>
