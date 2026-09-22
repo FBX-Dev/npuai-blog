@@ -1,21 +1,21 @@
 {
-	"name": "NPU AI",
-	"bio": "记录算力、芯片与大模型的一些事",
-	"avatar": "assets/images/avatar.webp",
-	"typewriter": {
-		"enable": true,
-		"speed": 80
-	},
-	"links": [
-		{
-			"name": "GitHub",
-			"icon": "fa7-brands:github",
-			"url": "https://github.com/FBX-Dev"
-		},
-		{
-			"name": "Email",
-			"icon": "fa7-solid:envelope",
-			"url": "mailto:hi@npuai.cn"
-		}
-	]
+  "name": "NPU AI",
+  "bio": "记录算力、芯片与大模型的一些事",
+  "avatar": "assets/images/avatar.webp",
+  "typewriter": {
+    "enable": true,
+    "speed": 80
+  },
+  "links": [
+    {
+      "name": "GitHub",
+      "icon": "fa7-brands:github",
+      "url": "https://github.com/FBX-Dev"
+    },
+    {
+      "name": "Email",
+      "icon": "fa7-solid:envelope",
+      "url": "mailto:hi@npuai.cn"
+    }
+  ]
 }

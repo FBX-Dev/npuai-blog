@@ -1,39 +1,45 @@
 {
-	"title": "NPU AI",
-	"subtitle": "算力 · 芯片 · 大模型",
-	"siteURL": "https://www.npuai.cn/",
-	"siteStartDate": "2026-09-20",
-	"timeZone": "Asia/Shanghai",
-	"lang": "zh_CN",
-	"keywords": ["NPU", "AI", "芯片", "大模型", "算力"],
-	"themeColor": {
-		"hue": 240,
-		"fixed": false
-	},
-	"navbarTitle": {
-		"mode": "text-icon",
-		"text": "NPU AI",
-		"icon": "assets/home/home.webp",
-		"logo": "assets/home/default-logo.webp"
-	},
-	"featurePages": {
-		"anime": false,
-		"diary": false,
-		"friends": true,
-		"projects": false,
-		"skills": false,
-		"timeline": false,
-		"albums": false,
-		"devices": false,
-		"aiTools": false
-	},
-	"postListLayout": {
-		"defaultMode": "list",
-		"enable": true,
-		"allowSwitch": true,
-		"categoryBarEnable": true
-	},
-	"tagNewStyle": false,
-	"wallpaperDefaultMode": "banner",
-	"mobileModeSwitch": "both"
+  "title": "NPU AI",
+  "subtitle": "算力 · 芯片 · 大模型",
+  "siteURL": "https://www.npuai.cn/",
+  "siteStartDate": "2026-09-20",
+  "timeZone": "Asia/Shanghai",
+  "lang": "zh_CN",
+  "keywords": [
+    "NPU",
+    "AI",
+    "芯片",
+    "大模型",
+    "算力"
+  ],
+  "themeColor": {
+    "hue": 240,
+    "fixed": false
+  },
+  "navbarTitle": {
+    "mode": "text-icon",
+    "text": "NPU AI",
+    "icon": "assets/home/home.webp",
+    "logo": "assets/home/default-logo.webp"
+  },
+  "featurePages": {
+    "anime": false,
+    "diary": false,
+    "friends": true,
+    "projects": false,
+    "skills": false,
+    "timeline": false,
+    "albums": false,
+    "devices": false,
+    "aiTools": false
+  },
+  "postListLayout": {
+    "defaultMode": "list",
+    "enable": true,
+    "allowSwitch": true,
+    "categoryBarEnable": true
+  },
+  "tagNewStyle": false,
+  "wallpaperDefaultMode": "banner",
+  "mobileModeSwitch": "both"
 }
