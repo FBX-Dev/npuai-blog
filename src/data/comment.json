@@ -1,22 +1,22 @@
 {
-	"enable": false,
-	"system": "giscus",
-	"twikoo": {
-		"envId": "",
-		"lang": "zh-CN"
-	},
-	"giscus": {
-		"repo": "FBX-Dev/npuai-blog",
-		"repoId": "R_kgDOUhNyCQ",
-		"category": "Announcements",
-		"categoryId": "DIC_kwDOUhNyCc4DGJGc",
-		"mapping": "pathname",
-		"strict": "0",
-		"reactionsEnabled": "1",
-		"emitMetadata": "0",
-		"inputPosition": "top",
-		"theme": "preferred_color_scheme",
-		"lang": "zh-CN",
-		"loading": "lazy"
-	}
+  "enable": true,
+  "system": "giscus",
+  "twikoo": {
+    "envId": "",
+    "lang": "zh-CN"
+  },
+  "giscus": {
+    "repo": "FBX-Dev/npuai-blog",
+    "repoId": "R_kgDOUhNyCQ",
+    "category": "Announcements",
+    "categoryId": "DIC_kwDOUhNyCc4DGJGc",
+    "mapping": "pathname",
+    "strict": "0",
+    "reactionsEnabled": "1",
+    "emitMetadata": "0",
+    "inputPosition": "top",
+    "theme": "preferred_color_scheme",
+    "lang": "zh-CN",
+    "loading": "lazy"
+  }
 }
