@@ -1,15 +1,15 @@
 {
 	"enable": false,
-	"system": "twikoo",
+	"system": "giscus",
 	"twikoo": {
 		"envId": "",
 		"lang": "zh-CN"
 	},
 	"giscus": {
-		"repo": "",
-		"repoId": "",
+		"repo": "FBX-Dev/npuai-blog",
+		"repoId": "R_kgDOUhNyCQ",
 		"category": "Announcements",
-		"categoryId": "",
+		"categoryId": "DIC_kwDOUhNyCc4DGJGc",
 		"mapping": "pathname",
 		"strict": "0",
 		"reactionsEnabled": "1",

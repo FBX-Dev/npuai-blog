@@ -611,8 +611,10 @@ collections:
             widget: boolean
             default: false
             hint: >-
-              打开前必须先把下面选中的那个评论系统填完整，
-              否则构建时会自动关掉评论并在日志里告警。
+              打开前必须先完成所用评论系统的准备：giscus 需要先在 GitHub 上把
+              giscus App 装到 FBX-Dev/npuai-blog（仓库已设为公开、Discussions 已打开、
+              下方 ID 已填好，装完把这里打开即可）；Twikoo 需要先有一个可用的 envId。
+              没准备好就打开的话，页面会渲染出空的评论区。
           - label: 使用哪个系统
             name: system
             widget: select
