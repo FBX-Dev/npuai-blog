@@ -1,0 +1,32 @@
+{
+  "links": [
+    {
+      "name": "首页",
+      "url": "/",
+      "icon": "material-symbols:home",
+      "external": false,
+      "children": []
+    },
+    {
+      "name": "归档",
+      "url": "/archive/",
+      "icon": "material-symbols:archive",
+      "external": false,
+      "children": []
+    },
+    {
+      "name": "关于",
+      "url": "/about/",
+      "icon": "material-symbols:person",
+      "external": false,
+      "children": []
+    },
+    {
+      "name": "Token 用量查询",
+      "url": "https://token.npuai.cn",
+      "icon": "material-symbols:monitor-heart",
+      "external": true,
+      "children": []
+    }
+  ]
+}

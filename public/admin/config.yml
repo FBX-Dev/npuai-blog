@@ -91,3 +91,61 @@ collections:
           - label: 正文
             name: body
             widget: markdown
+
+  - name: settings
+    label: 站点设置
+    description: 站点级配置。「顶部导航菜单」控制网站最上面那排菜单，可以直接跳站内页面，也可以挂外链（比如 token.npuai.cn）做引流。保存后提交到 GitHub 并自动重新构建发布（约 2 分钟生效）
+    files:
+      - label: 顶部导航菜单
+        name: navigation
+        file: src/data/navigation.json
+        fields:
+          - label: 菜单项
+            name: links
+            label_singular: 菜单项
+            widget: list
+            min: 1
+            summary: '{{fields.name}}  →  {{fields.url}}'
+            hint: 上下的顺序＝菜单从左到右的顺序，拖动条目左侧的手柄可以调整顺序。
+            fields:
+              - label: 名称
+                name: name
+                widget: string
+                hint: 菜单上显示的文字，尽量短（建议 2–6 个字）
+              - label: 链接
+                name: url
+                widget: string
+                hint: 站内页面写 /archive/ 这种格式（以斜杠开头和结尾）。本站可用：/ 首页、/archive/ 归档、/about/ 关于。跳站外要写完整地址，例如 https://token.npuai.cn
+              - label: 图标
+                name: icon
+                widget: string
+                required: false
+                default: ''
+                hint: Iconify 图标名，例如 material-symbols:home。只能填 material-symbols / mdi / fa7-solid / fa7-regular / fa7-brands / simple-icons 里真实存在的图标，填错就不显示图标。屏幕窄的时候菜单只显示图标、隐藏文字，所以建议每项都填。挑图标：https://icon-sets.iconify.design/
+              - label: 在新标签页打开（外链）
+                name: external
+                widget: boolean
+                default: false
+                hint: 跳站外建议开启。开启后会在新标签页打开，并显示一个外链小标识
+              - label: 子菜单
+                name: children
+                widget: list
+                required: false
+                summary: '{{fields.name}}'
+                hint: 留空就是普通菜单项；填了会变成鼠标悬停展开的下拉菜单
+                fields:
+                  - label: 名称
+                    name: name
+                    widget: string
+                  - label: 链接
+                    name: url
+                    widget: string
+                  - label: 图标
+                    name: icon
+                    widget: string
+                    required: false
+                    default: ''
+                  - label: 在新标签页打开（外链）
+                    name: external
+                    widget: boolean
+                    default: false
