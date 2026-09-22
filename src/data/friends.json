@@ -1,0 +1,18 @@
+{
+	"list": [
+		{
+			"title": "BI4OAE 业余无线电",
+			"siteurl": "https://www.bi4oae.top/",
+			"imgurl": "https://www.bi4oae.top/favicon.ico",
+			"desc": "业余无线电知识分享：天线与传播、设备与器材、数字模式、应急通信。",
+			"tags": ["自建站", "无线电"]
+		},
+		{
+			"title": "Token 用量查询",
+			"siteurl": "https://token.npuai.cn/",
+			"imgurl": "/assets/home/default-logo.webp",
+			"desc": "纯浏览器本地解析的 token 用量看板，日志不上传，数据不出本机。",
+			"tags": ["自建站", "工具"]
+		}
+	]
+}

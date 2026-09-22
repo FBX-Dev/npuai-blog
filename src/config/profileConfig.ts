@@ -1,24 +1,43 @@
+import rawProfile from "../data/profile.json";
 import type { ProfileConfig } from "../types/config";
+import { asArray, asRecord, bool, isUsableUrl, num, str } from "../utils/cms-value";
 
-// 个人资料配置
+/**
+ * 作者资料由后台（Sveltia CMS）写进 `src/data/profile.json`。
+ *
+ * ⚠️ `name` 是作者名的唯一来源，影响侧栏卡片、页脚版权、RSS/Atom、
+ * SEO author、结构化数据、分享卡、OG 图等多处；改这里等于全站改名。
+ *
+ * 后台可能写出缺字段 / 类型不对的内容，所以一律走兜底取值，绝不 throw。
+ */
+const profile = asRecord(rawProfile);
+
+function readLinks(): ProfileConfig["links"] {
+	return asArray(profile?.links)
+		.map((item) => asRecord(item))
+		.filter((item): item is Record<string, unknown> => item !== undefined)
+		.map((item) => ({
+			name: str(item.name, ""),
+			url: str(item.url, ""),
+			icon: str(item.icon, ""),
+		}))
+		// 社交图标要 name / url / icon 三者齐全才有意义，缺一个就整条丢掉
+		.filter((link) => link.name && link.url && link.icon && isUsableUrl(link.url));
+}
+
+function readTypewriter(): ProfileConfig["typewriter"] {
+	const raw = asRecord(profile?.typewriter);
+	if (!raw) return { enable: false, speed: 80 };
+	return {
+		enable: bool(raw.enable, false),
+		speed: num(raw.speed, 80, { min: 0, max: 2000 }),
+	};
+}
+
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/avatar.webp", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
-	name: "NPU AI",
-	bio: "记录算力、芯片与大模型的一些事",
-	typewriter: {
-		enable: true, // 启用个人简介打字机效果
-		speed: 80, // 打字速度（毫秒）
-	},
-	links: [
-		{
-			name: "GitHub",
-			icon: "fa7-brands:github",
-			url: "https://github.com/FBX-Dev",
-		},
-		{
-			name: "Email",
-			icon: "fa7-solid:envelope",
-			url: "mailto:hi@npuai.cn",
-		},
-	],
+	avatar: str(profile?.avatar, "assets/images/avatar.webp"),
+	name: str(profile?.name, "NPU AI"),
+	bio: str(profile?.bio, "记录算力、芯片与大模型的一些事"),
+	typewriter: readTypewriter(),
+	links: readLinks(),
 };

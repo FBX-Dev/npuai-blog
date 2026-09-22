@@ -32,6 +32,7 @@ pnpm-debug.log*
 .vercel
 
 package-lock.json
+bun.lock
 bun.lockb
 yarn.lock
 
@@ -59,3 +60,6 @@ src/data/bilibili-data.json
 *.psd~
 *.cmo3
 *.vtube.json
+
+# 本地校验脚本与临时产物（无头浏览器截图、打包产物、chrome profile）
+_tmp_verify/

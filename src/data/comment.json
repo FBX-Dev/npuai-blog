@@ -1,0 +1,22 @@
+{
+	"enable": false,
+	"system": "twikoo",
+	"twikoo": {
+		"envId": "",
+		"lang": "zh-CN"
+	},
+	"giscus": {
+		"repo": "",
+		"repoId": "",
+		"category": "Announcements",
+		"categoryId": "",
+		"mapping": "pathname",
+		"strict": "0",
+		"reactionsEnabled": "1",
+		"emitMetadata": "0",
+		"inputPosition": "top",
+		"theme": "preferred_color_scheme",
+		"lang": "zh-CN",
+		"loading": "lazy"
+	}
+}

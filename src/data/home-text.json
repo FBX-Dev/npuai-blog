@@ -1,0 +1,18 @@
+{
+	"enable": true,
+	"title": "NPU AI",
+	"switchable": true,
+	"subtitles": [
+		"算力、芯片与大模型的产业观察",
+		"把参数表翻到背面，看真实成本",
+		"推理超过训练，变化的开始",
+		"生态的护城河，比硬件更深",
+		"记录国产算力走到哪一步了"
+	],
+	"typewriter": {
+		"enable": true,
+		"speed": 100,
+		"deleteSpeed": 50,
+		"pauseTime": 2000
+	}
+}

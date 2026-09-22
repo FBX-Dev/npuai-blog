@@ -1,49 +1,139 @@
+import rawHomeText from "../data/home-text.json";
+import rawSiteInfo from "../data/site-info.json";
 import type { SiteConfig } from "../types/config";
+import { asRecord, bool, num, oneOf, optString, str, strArray } from "../utils/cms-value";
+
+/**
+ * 站点级配置现在由后台（Sveltia CMS）写进 `src/data/site-info.json` 和
+ * `src/data/home-text.json`。这里只做「读 JSON + 兜底」，不做业务逻辑。
+ *
+ * 后台是手改的，可能写出缺字段 / 类型不对 / 整个字段被删掉的内容。
+ * 所以下面每个取值都必须有默认值，**绝不 throw** —— 否则整站构建会失败。
+ */
+const siteInfo = asRecord(rawSiteInfo);
+const homeText = asRecord(rawHomeText);
+
+const SITE_LANG_OPTIONS = [
+	"en",
+	"zh_CN",
+	"zh_TW",
+	"ja",
+	"ko",
+	"es",
+	"th",
+	"vi",
+	"tr",
+	"id",
+] as const;
+export type SiteLang = (typeof SITE_LANG_OPTIONS)[number];
 
 // 定义站点语言
-const SITE_LANG = "zh_CN"; // 语言代码，例如：'en', 'zh_CN', 'ja' 等。
+export const SITE_LANG: SiteLang = oneOf(
+	siteInfo?.lang,
+	SITE_LANG_OPTIONS,
+	"zh_CN",
+);
+
+/** 站点URL必须是绝对地址，否则 canonical / RSS / sitemap 全会写错 */
+function readSiteURL(value: unknown, fallback: string): string {
+	const raw = optString(value);
+	if (!raw) return fallback;
+	try {
+		const url = new URL(raw);
+		// 统一成以斜杠结尾，主题多处按这个约定拼接
+		return url.href.endsWith("/") ? url.href : `${url.href}/`;
+	} catch {
+		return fallback;
+	}
+}
+
+function readThemeColor(): { hue: number; fixed: boolean } {
+	const raw = asRecord(siteInfo?.themeColor);
+	return {
+		hue: num(raw?.hue, 240, { min: 0, max: 360 }),
+		fixed: bool(raw?.fixed, false),
+	};
+}
+
+function readNavbarTitle(): NonNullable<SiteConfig["navbarTitle"]> {
+	const raw = asRecord(siteInfo?.navbarTitle) ?? {};
+	return {
+		mode: oneOf(raw.mode, ["text-icon", "logo"] as const, "text-icon"),
+		text: str(raw.text, "NPU AI"),
+		icon: str(raw.icon, "assets/home/home.webp"),
+		logo: str(raw.logo, "assets/home/default-logo.webp"),
+	};
+}
+
+function readFeaturePages(): SiteConfig["featurePages"] {
+	const raw = asRecord(siteInfo?.featurePages);
+	// 兜底值 = 站点当前的实际状态：只开友链，其余演示页保持关闭
+	return {
+		anime: bool(raw?.anime, false),
+		diary: bool(raw?.diary, false),
+		friends: bool(raw?.friends, true),
+		projects: bool(raw?.projects, false),
+		skills: bool(raw?.skills, false),
+		timeline: bool(raw?.timeline, false),
+		albums: bool(raw?.albums, false),
+		devices: bool(raw?.devices, false),
+		aiTools: bool(raw?.aiTools, false),
+	};
+}
+
+function readPostListLayout(): SiteConfig["postListLayout"] {
+	const raw = asRecord(siteInfo?.postListLayout);
+	return {
+		defaultMode: oneOf(raw?.defaultMode, ["list", "grid"] as const, "list"),
+		enable: bool(raw?.enable, true),
+		allowSwitch: bool(raw?.allowSwitch, true),
+		categoryBar: { enable: bool(raw?.categoryBarEnable, true) },
+	};
+}
+
+function readHomeText(): NonNullable<SiteConfig["banner"]["homeText"]> {
+	const subtitles = strArray(homeText?.subtitles ?? homeText?.subtitle);
+	const typewriter = asRecord(homeText?.typewriter);
+	return {
+		enable: bool(homeText?.enable, true),
+		title: str(homeText?.title, "NPU AI"),
+		switchable: bool(homeText?.switchable, true),
+		// 副标题为空数组时退回默认文案，避免首页只剩一个孤零零的大标题
+		subtitle: subtitles.length
+			? subtitles
+			: [
+					"算力、芯片与大模型的产业观察",
+					"把参数表翻到背面，看真实成本",
+					"推理超过训练，变化的开始",
+				],
+		typewriter: {
+			enable: bool(typewriter?.enable, true),
+			speed: num(typewriter?.speed, 100, { min: 0, max: 2000 }),
+			deleteSpeed: num(typewriter?.deleteSpeed, 50, { min: 0, max: 2000 }),
+			pauseTime: num(typewriter?.pauseTime, 2000, { min: 0, max: 60000 }),
+		},
+	};
+}
 
 export const siteConfig: SiteConfig = {
-	title: "NPU AI",
-	subtitle: "算力 · 芯片 · 大模型",
-	siteURL: "https://www.npuai.cn/", // 请替换为你的站点URL，以斜杠结尾
-	siteStartDate: "2026-09-20", // 站点开始运行日期，用于站点统计组件计算运行天数
-	timeZone: "Asia/Shanghai", // 文章日期使用的 IANA 时区，可改为 Asia/Tokyo、Europe/Berlin 等
+	title: str(siteInfo?.title, "NPU AI"),
+	subtitle: str(siteInfo?.subtitle, "算力 · 芯片 · 大模型"),
+	siteURL: readSiteURL(siteInfo?.siteURL, "https://www.npuai.cn/"),
+	siteStartDate: str(siteInfo?.siteStartDate, "2026-09-20"),
+	timeZone: str(siteInfo?.timeZone, "Asia/Shanghai"),
 
-	keywords: ["NPU", "AI", "芯片", "大模型", "算力"],
+	keywords: strArray(siteInfo?.keywords),
 
 	lang: SITE_LANG,
 
-	themeColor: {
-		hue: 240, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
-		fixed: false, // 对访问者隐藏主题色选择器
-	},
+	themeColor: readThemeColor(),
 
 	// 特色页面开关配置（关闭未使用的页面有助于提升 SEO，关闭后导航栏会自动隐藏对应链接）
 	// 本站只保留内容与归档相关页面，主题自带的演示页面全部关闭。
-	featurePages: {
-		anime: false, // 番剧页面开关
-		diary: false, // 日记页面开关
-		friends: false, // 友链页面开关
-		projects: false, // 项目页面开关
-		skills: false, // 技能页面开关
-		timeline: false, // 时间线页面开关
-		albums: false, // 相册页面开关
-		devices: false, // 设备页面开关
-		aiTools: false, // AI 工具页面开关
-	},
+	featurePages: readFeaturePages(),
 
 	// 顶栏标题配置
-	navbarTitle: {
-		// 显示模式："text-icon" 显示图标+文本，"logo" 仅显示Logo
-		mode: "text-icon",
-		// 顶栏标题文本
-		text: "NPU AI",
-		// 顶栏标题图标路径，默认使用 public/assets/home/home.webp
-		icon: "assets/home/home.webp",
-		// 网站Logo图片路径
-		logo: "assets/home/default-logo.webp",
-	},
+	navbarTitle: readNavbarTitle(),
 
 	// 旧版页面自动缩放配置。默认关闭，页面尺寸优先交由响应式布局处理。
 	pageScaling: {
@@ -81,20 +171,9 @@ export const siteConfig: SiteConfig = {
 	// 日记页面 Memos API 地址，留空则使用静态数据
 	diaryApiUrl: "",
 
-	// 文章列表布局配置
-	postListLayout: {
-		// 默认布局模式："list" 列表模式（单列布局），"grid" 网格模式（双列布局）
-		// 注意：如果侧边栏配置启用了"both"双侧边栏，则无法使用文章列表"grid"网格（双列）布局
-		defaultMode: "list",
-		// 是否启用布局切换功能
-		enable: true,
-		// 是否允许用户切换布局
-		allowSwitch: true,
-		// 文章列表页分类导航条配置
-		categoryBar: {
-			enable: true, // 是否在文章列表页显示分类导航条
-		},
-	},
+	// 文章列表布局配置（后台「站点设置 → 站点信息」可改）
+	// 注意：如果侧边栏配置启用了"both"双侧边栏，则无法使用文章列表"grid"网格（双列）布局
+	postListLayout: readPostListLayout(),
 
 	// 文章页超宽屏布局配置
 	// 在 2K/4K 视口下扩展文章容器、侧栏与正文阅读轨道；1920px 以下不生效。
@@ -104,22 +183,25 @@ export const siteConfig: SiteConfig = {
 		allowSwitch: true, // 是否在设置面板中显示开关
 	},
 
-	// 标签样式配置
+	// 标签样式配置（后台「站点设置 → 站点信息」可改）
 	tagStyle: {
 		// 是否使用新样式（悬停高亮样式）还是旧样式（外框常亮样式）
-		useNewStyle: false,
+		useNewStyle: bool(siteInfo?.tagNewStyle, false),
 	},
 
-	// 壁纸模式配置
+	// 壁纸模式配置（后台「站点设置 → 站点信息」可改）
+	// defaultMode：banner=顶部横幅，fullscreen=全屏壁纸，overlay=遮罩壁纸，none=无壁纸
 	wallpaperMode: {
-		// 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
-		defaultMode: "banner",
-		// 整体布局方案切换按钮显示设置（默认："desktop"）
-		// "off" = 不显示
-		// "mobile" = 仅在移动端显示
-		// "desktop" = 仅在桌面端显示
-		// "both" = 在所有设备上显示
-		showModeSwitchOnMobile: "both",
+		defaultMode: oneOf(
+			siteInfo?.wallpaperDefaultMode,
+			["banner", "fullscreen", "overlay", "none"] as const,
+			"banner",
+		),
+		showModeSwitchOnMobile: oneOf(
+			siteInfo?.mobileModeSwitch,
+			["off", "mobile", "desktop", "both"] as const,
+			"both",
+		),
 	},
 
 	banner: {
@@ -163,26 +245,8 @@ export const siteConfig: SiteConfig = {
 		// 项目地址:https://github.com/matsuzaka-yuki/PicFlow-API
 		// 请自行搭建API
 
-		homeText: {
-			enable: true,
-			title: "NPU AI",
-			switchable: true,
-
-			subtitle: [
-				"算力、芯片与大模型的产业观察",
-				"把参数表翻到背面，看真实成本",
-				"推理超过训练，变化的开始",
-				"生态的护城河，比硬件更深",
-				"记录国产算力走到哪一步了",
-			],
-			typewriter: {
-				enable: true, // 启用副标题打字机效果
-
-				speed: 100, // 打字速度（毫秒）
-				deleteSpeed: 50, // 删除速度（毫秒）
-				pauseTime: 2000, // 完全显示后的暂停时间（毫秒）
-			},
-		},
+		// 首页大标题与副标题（后台「站点设置 → 首页文案」可改）
+		homeText: readHomeText(),
 
 		credit: {
 			enable: false, // 显示横幅图片来源文本
@@ -240,5 +304,3 @@ export const siteConfig: SiteConfig = {
 		],
 	},
 };
-
-export { SITE_LANG };

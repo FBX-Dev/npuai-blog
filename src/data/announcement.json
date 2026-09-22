@@ -1,0 +1,13 @@
+{
+	"title": "",
+	"content": "本站聚焦算力、芯片与大模型产业链，内容基于公开信息整理，持续更新。",
+	"icon": "",
+	"type": "info",
+	"closable": true,
+	"link": {
+		"enable": true,
+		"text": "关于本站",
+		"url": "/about/",
+		"external": false
+	}
+}
