@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import { describe, it } from "node:test";
 
 const astroConfig = await readFile(
@@ -28,20 +28,36 @@ const fontCheckSource = await readFile(
 );
 
 describe("Custom font loading boundary", () => {
-	it("ships both local display fonts as complete WOFF2 files", async () => {
-		for (const name of ["ZenMaruGothic-Medium.woff2", "loli.woff2"]) {
-			const font = await readFile(
-				new URL(`../src/assets/fonts/${name}`, import.meta.url),
-			);
-			assert.equal(font.subarray(0, 4).toString("ascii"), "wOF2");
-			assert.ok(font.length > 100_000, `${name} must not be a tiny subset`);
-			assert.ok(astroConfig.includes(`./src/assets/fonts/${name}`));
-		}
+	it("loads both display fonts from Fontsource and ships no local font binaries", async () => {
+		// 拉丁（Inter）与中文（Noto Sans SC）都在构建时由 Fontsource 下载并自托管，
+		// 仓库里不再存放字体二进制，避免体积与许可分发上的麻烦。
+		assert.match(
+			astroConfig,
+			/name: "Inter"[\s\S]{0,400}?cssVariable: "--font-body"[\s\S]{0,400}?provider: fontProviders\.fontsource\(\)/,
+		);
+		assert.match(
+			astroConfig,
+			/name: "Noto Sans SC"[\s\S]{0,400}?cssVariable: "--font-cjk"[\s\S]{0,400}?provider: fontProviders\.fontsource\(\)/,
+		);
+		assert.doesNotMatch(astroConfig, /fontProviders\.local\(\)/);
+		assert.doesNotMatch(astroConfig, /src: \[[^\]]+\.(?:ttf|otf|woff2?)/);
 
-		assert.doesNotMatch(astroConfig, /src: \[[^\]]+\.ttf/);
+		let leftover = [];
+		try {
+			leftover = (await readdir(new URL("../src/assets/fonts", import.meta.url))).filter(
+				(name) => /\.(?:ttf|otf|woff2?)$/i.test(name),
+			);
+		} catch (error) {
+			if (error?.code !== "ENOENT") throw error;
+		}
+		assert.deepEqual(
+			leftover,
+			[],
+			"local font binaries should have been removed in favour of Fontsource",
+		);
 	});
 
-	it("preserves PR #502's ZenMaru -> Loli fallback contract", () => {
+	it("preserves PR #502's Latin -> CJK fallback contract", () => {
 		assert.equal((astroConfig.match(/fallbacks: \[\]/g) ?? []).length, 2);
 		assert.equal(
 			(astroConfig.match(/optimizedFallbacks: false/g) ?? []).length,
@@ -49,9 +65,17 @@ describe("Custom font loading boundary", () => {
 		);
 		assert.match(
 			astroConfig,
-			/name: "ZenMaruGothic-Medium"[\s\S]*weight: "500"/,
+			/name: "Inter"[\s\S]{0,400}?weights: \[400, 500, 600, 700\]/,
 		);
-		assert.match(astroConfig, /name: "Loli"[\s\S]*weight: "400"/);
+		assert.match(
+			astroConfig,
+			/name: "Noto Sans SC"[\s\S]{0,400}?weights: \[400, 500, 700\][\s\S]{0,200}?subsets: \["chinese-simplified"\]/,
+		);
+		// 拉丁字体必须排在中文之前，否则中文字形不会被考虑
+		assert.ok(
+			astroConfig.indexOf('cssVariable: "--font-body"') <
+				astroConfig.indexOf('cssVariable: "--font-cjk"'),
+		);
 
 		const bodyIndex = mainStyles.indexOf("var(--font-body");
 		const cjkIndex = mainStyles.indexOf("var(--font-cjk");
@@ -63,6 +87,24 @@ describe("Custom font loading boundary", () => {
 		assert.equal(
 			(layoutSource.match(/customFontsEnabled\s*&&\s*<Font/g) ?? []).length,
 			3,
+		);
+	});
+
+	it("keeps src-wide globs image-filtered so font binaries are never emitted", async () => {
+		// `import.meta.glob("../../**")` 会把 src/ 下的字体二进制也塞进 Vite 资源图，
+		// 让 20MB+ 的死资源进入 dist。所有跨 src 的 glob 都必须限定图片扩展名。
+		const postPage = await readFile(
+			new URL("../src/pages/posts/[...slug].astro", import.meta.url),
+			"utf8",
+		);
+		assert.doesNotMatch(postPage, /import\.meta\.glob<ImageMetadata>\(\s*"\.\.\/\.\.\/\*\*"/);
+		assert.equal(
+			(
+				postPage.match(
+					/import\.meta\.glob<ImageMetadata>\(\s*"\.\.\/\.\.\/\*\*\/\*\.\{[^}]+\}"/g,
+				) ?? []
+			).length,
+			2,
 		);
 	});
 

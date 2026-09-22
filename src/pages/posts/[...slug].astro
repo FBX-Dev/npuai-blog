@@ -120,9 +120,12 @@ let posterCoverUrl = coverSrc;
 
 if (coverSrc) {
 	if (cover.kind === "local") {
-		const files = import.meta.glob<ImageMetadata>("../../**", {
-			import: "default",
-		});
+		// 只匹配图片扩展名：`../../**` 会把 src/ 下的所有资源（字体二进制等）一并
+		// 纳入 Vite 资源图并输出到 dist，白白增加几十 MB 体积。
+		const files = import.meta.glob<ImageMetadata>(
+			"../../**/*.{avif,gif,jpeg,jpg,png,svg,webp}",
+			{ import: "default" },
+		);
 		const normalizedPath = path
 			.normalize(path.join("../../", cover.basePath || "", coverSrc))
 			.replace(/\\/g, "/");
@@ -169,9 +172,12 @@ if (profileConfig.avatar) {
 		profileConfig.avatar.startsWith("data:")
 	);
 	if (isLocal) {
-		const files = import.meta.glob<ImageMetadata>("../../**", {
-			import: "default",
-		});
+		// 只匹配图片扩展名：`../../**` 会把 src/ 下的所有资源（字体二进制等）一并
+		// 纳入 Vite 资源图并输出到 dist，白白增加几十 MB 体积。
+		const files = import.meta.glob<ImageMetadata>(
+			"../../**/*.{avif,gif,jpeg,jpg,png,svg,webp}",
+			{ import: "default" },
+		);
 		const normalizedPath = path
 			.normalize(path.join("../../", profileConfig.avatar))
 			.replace(/\\/g, "/");

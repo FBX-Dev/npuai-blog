@@ -163,7 +163,9 @@ const bannerOffset =
 			@layer properties, theme, base, components, utilities;
 		</style>
 
-		{customFontsEnabled && <Font cssVariable="--font-body" preload />}
+		{/* 只预载 latin 子集：latin-ext / greek 让浏览器按需拉取，
+		    否则 --font-body 的 12 个字面会同时挂 10 个 preload。 */}
+		{customFontsEnabled && <Font cssVariable="--font-body" preload={[{ subset: "latin" }]} />}
 		{customFontsEnabled && <Font cssVariable="--font-cjk" />}
 		{customFontsEnabled && <Font cssVariable="--font-jetbrains-mono" />}
 

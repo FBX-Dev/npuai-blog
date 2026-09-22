@@ -52,7 +52,7 @@ export const siteConfig: SiteConfig = {
 	},
 
 	font: {
-		// custom 保持 ZenMaruGothic -> Loli -> 系统字体的显示顺序；system 不加载任何自定义字体
+		// custom 保持 Inter -> Noto Sans SC -> 系统字体的显示顺序；system 不加载任何自定义字体
 		mode: "custom",
 	},
 

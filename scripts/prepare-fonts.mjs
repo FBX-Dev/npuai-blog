@@ -5,10 +5,18 @@ import { fileURLToPath } from "node:url";
 import { Font, ttftowoff2, woff2 } from "fonteditor-core";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const fonts = [
-	["ZenMaruGothic-Medium.ttf", "ZenMaruGothic-Medium.woff2"],
-	["loli.ttf", "loli.woff2"],
-];
+// 正文（Inter）与中文（Noto Sans SC）现在由 Fontsource 在构建时下载并自托管
+// （见 astro.config.mjs），仓库里不再保存字体二进制，所以这里默认为空。
+// 若将来要改回本地自托管：把 TTF 放进 src/assets/fonts/，在下面补上
+// [源 .ttf, 目标 .woff2] 再执行 `pnpm prepare-fonts`。
+const fonts = [];
+
+if (fonts.length === 0) {
+	console.log(
+		"没有需要转换的本地字体：正文/中文字体由 Fontsource 在构建时提供。",
+	);
+	process.exit(0);
+}
 
 function exactArrayBuffer(buffer) {
 	return buffer.buffer.slice(
