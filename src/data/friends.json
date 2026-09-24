@@ -19,6 +19,13 @@
         "自建站",
         "工具"
       ]
+    },
+    {
+      "title": "TestedHost",
+      "siteurl": "https://testedhost.com/",
+      "imgurl": "",
+      "desc": "",
+      "tags": []
     }
   ]
 }
