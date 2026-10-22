@@ -27,13 +27,6 @@
       "icon": "material-symbols:handshake",
       "external": false,
       "children": []
-    },
-    {
-      "name": "Token 用量查询",
-      "url": "https://token.npuai.cn",
-      "icon": "material-symbols:monitor-heart",
-      "external": true,
-      "children": []
     }
   ]
 }
