@@ -4,7 +4,7 @@
     "containerId": "GTM-MDK9X7JK"
   },
   "clarity": {
-    "enable": false,
-    "projectId": ""
+    "enable": true,
+    "projectId": "zdcr7vm1kc"
   }
 }
