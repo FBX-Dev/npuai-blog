@@ -159,6 +159,17 @@ const bannerOffset =
 	<head>
 		<meta charset="UTF-8" />
 
+		{/* Google AdSense 验证脚本：必须 is:inline 原样输出。
+		    不加 is:inline，Astro 会把 script 打包成 /_astro/*.js 外部模块，
+		    页面源码里就没有 adsbygoogle.js 字面，Google 后台会判定「未检测到代码」。
+		    client 必须与 /ads.txt 里的 pub-3948558780581083 一致。 */}
+		<script
+			is:inline
+			async
+			src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3948558780581083"
+			crossorigin="anonymous"
+		></script>
+
         <style is:inline>
 			@layer properties, theme, base, components, utilities;
 		</style>
