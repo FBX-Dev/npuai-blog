@@ -7,6 +7,7 @@
  *
  * 导出名称                      │ 文件                       │ 说明
  * ─────────────────────────────┼────────────────────────────┼──────────────────────────────
+ * analyticsConfig               │ analyticsConfig.ts         │ 第三方统计（GTM 容器 ID / Clarity 项目 ID，后台可改）
  * siteConfig                    │ siteConfig.ts              │ 站点核心配置（标题、语言、主题色、横幅、字体、特色页面开关等）
  * SITE_LANG                     │ siteConfig.ts              │ 站点语言常量（从 siteConfig 中导出）
  * fullscreenWallpaperConfig     │ backgroundWallpaper.ts     │ 全屏壁纸模式配置（图片源、轮播、透明度、模糊）
@@ -50,6 +51,7 @@
  * 以上三种方式都会自动解析到此 index.ts 文件。
  */
 
+export { analyticsConfig } from "./analyticsConfig";
 export { announcementConfig } from "./announcementConfig";
 
 // ─── 外观与壁纸 ─────────────────────────────────────────────

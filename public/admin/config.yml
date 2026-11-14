@@ -702,6 +702,44 @@ collections:
                 required: false
                 default: lazy
 
+      # ── 分析统计 ──────────────────────────────────────
+      - label: 分析统计
+        name: analytics
+        icon: insights
+        file: src/data/analytics.json
+        fields:
+          - label: Google Tag Manager (GTM)
+            name: gtm
+            widget: object
+            hint: >-
+              保存后约 2 分钟生效。GTM 在访客首次交互后加载（或 10 秒兜底）。
+              关掉开关或清空容器 ID 都会完全停用：页面脚本与禁用 JS 时的 noscript 都不再输出。
+            fields:
+              - label: 启用 GTM
+                name: enable
+                widget: boolean
+                default: true
+              - label: 容器 ID
+                name: containerId
+                widget: string
+                required: false
+                hint: 格式 GTM-XXXXXXX，例如 GTM-MDK9X7JK。格式不对会被自动忽略，不会把请求发到错误地址。
+          - label: Microsoft Clarity
+            name: clarity
+            widget: object
+            collapsed: true
+            hint: 录屏与热力图工具，默认关闭。启用会拖慢页面，且涉及访客隐私，开启前想清楚。
+            fields:
+              - label: 启用 Clarity
+                name: enable
+                widget: boolean
+                default: false
+              - label: 项目 ID
+                name: projectId
+                widget: string
+                required: false
+                hint: Clarity 后台给出的项目 ID。留空时即使打开开关也不会加载。
+
       # ── 页脚与备案 ────────────────────────────────────
       - label: 页脚与备案
         name: footer

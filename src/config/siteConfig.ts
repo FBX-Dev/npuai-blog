@@ -2,6 +2,7 @@ import rawHomeText from "../data/home-text.json";
 import rawSiteInfo from "../data/site-info.json";
 import type { SiteConfig } from "../types/config";
 import { asRecord, bool, num, oneOf, optString, str, strArray } from "../utils/cms-value";
+import { analyticsConfig } from "./analyticsConfig";
 
 /**
  * 站点级配置现在由后台（Sveltia CMS）写进 `src/data/site-info.json` 和
@@ -285,9 +286,11 @@ export const siteConfig: SiteConfig = {
 		duration: 6000, // 动画时长 6s
 	},
 
+	// 由后台「站点设置 → 分析统计」的 analytics.json 提供，保持原有接口结构不变。
+	// 注意：这个开关只管 Clarity，管不到 GTM —— GTM 由 analyticsConfig.gtm 单独控制。
 	thirdPartyAnalytics: {
-		enable: false, // 是否启用第三方统计（Microsoft Clarity），默认关闭，启用可能影响 Lighthouse 评分
-		clarityId: "", // Clarity 项目 ID
+		enable: analyticsConfig.clarity.enable,
+		clarityId: analyticsConfig.clarity.projectId,
 	},
 	// 卡片样式配置
 	card: {

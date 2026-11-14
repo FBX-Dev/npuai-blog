@@ -18,8 +18,10 @@ interface Props {
 	};
 }
 
+// gtmId 由 Layout 从 analyticsConfig（后台「站点设置 → 分析统计」）传入。
+// 这里不再写死任何容器 ID：空串＝后台关掉了 GTM / ID 不合法，下面的加载逻辑会跳过。
 const {
-	gtmId = "GTM-MDK9X7JK",
+	gtmId = "",
 	thirdPartyAnalytics = { enable: false, clarityId: "" },
 } = Astro.props;
 
@@ -46,19 +48,21 @@ const clarityEnable =
 			}
 			window.analyticsLoaded = true;
 
-			// Google Tag Manager
-			(function (w, d, s, l, i) {
-				w[l] = w[l] || [];
-				w[l].push({
-					"gtm.start": new Date().getTime(),
-					event: "gtm.js",
-				});
-				const f = d.getElementsByTagName(s)[0],
-					j = d.createElement(s);
-				j.async = true;
-				j.src = "https://www.googletagmanager.com/gtm.js?id=" + i;
-				f.parentNode.insertBefore(j, f);
-			})(window, document, "script", "dataLayer", gtmId);
+			// Google Tag Manager（容器 ID 为空＝后台关掉了 GTM，整段跳过）
+			if (gtmId) {
+				(function (w, d, s, l, i) {
+					w[l] = w[l] || [];
+					w[l].push({
+						"gtm.start": new Date().getTime(),
+						event: "gtm.js",
+					});
+					const f = d.getElementsByTagName(s)[0],
+						j = d.createElement(s);
+					j.async = true;
+					j.src = "https://www.googletagmanager.com/gtm.js?id=" + i;
+					f.parentNode.insertBefore(j, f);
+				})(window, document, "script", "dataLayer", gtmId);
+			}
 
 			// Clarity (仅在启用时加载)
 			if (clarityEnable && clarityId) {

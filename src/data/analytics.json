@@ -1,0 +1,10 @@
+{
+  "gtm": {
+    "enable": true,
+    "containerId": "GTM-MDK9X7JK"
+  },
+  "clarity": {
+    "enable": false,
+    "projectId": ""
+  }
+}
