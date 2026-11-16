@@ -23,9 +23,18 @@ export const getStaticPaths = (async ({ paginate }) => {
 const { page } = Astro.props;
 
 const len = page.data.length;
+
+// 首页独立 description：主题默认 description 回退成 title，导致它与首页
+// title（NPU AI - 算力 · 芯片 · 大模型）逐字重复，浪费搜索摘要位。
+// 只给第 1 页传独立值；title 不传，保持主题默认的「站名 - 副标题」不变。
+// 页码字段是 page.currentPage（paginate API）。
+const homeDescription =
+	page.currentPage === 1
+		? "聚焦算力、芯片与大模型的产业观察。解读 HBM、先进封装、端侧 NPU、液冷与光互联的技术路线，跟踪产业链真实进展，数据可溯源。"
+		: undefined;
 ---
 
-<MainGridLayout>
+<MainGridLayout description={homeDescription}>
 	{showCategoryBar && <CategoryBar />}
 	<PostPage page={page} />
 	<Pagination
