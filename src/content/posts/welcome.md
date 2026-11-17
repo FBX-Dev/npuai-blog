@@ -1,17 +1,15 @@
 ---
-title: 本站开通：NPU AI
+title: NPU AI 聚焦算力、芯片与大模型
 published: 2026-09-20
 description: 站点正式上线。聚焦算力、芯片与大模型产业链的公开信息整理，内容基于可核查的公开来源。
 image: ''
+category: 站点
 tags:
   - 公告
-category: 站点
-draft: false
-pinned: true
+pinned: false
 lang: zh_CN
+draft: false
 ---
-
-这个站点今天开通了，名字叫 NPU AI。
 
 ## 这里写什么
 
