@@ -9,16 +9,6 @@
         "自建站",
         "无线电"
       ]
-    },
-    {
-      "title": "Token 用量查询",
-      "siteurl": "https://token.npuai.cn/",
-      "imgurl": "/assets/home/default-logo.webp",
-      "desc": "纯浏览器本地解析的 token 用量看板，日志不上传，数据不出本机。",
-      "tags": [
-        "自建站",
-        "工具"
-      ]
     }
   ]
 }
